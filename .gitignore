@@ -17,7 +17,7 @@ $RECYCLE.BIN/
 *~
 
 # IDE and Editor files
-.vscode/
+
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
