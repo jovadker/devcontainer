@@ -63,4 +63,44 @@ public class EchoFunction
             return errorResponse;
         }
     }
+
+    [Function("GetDateTime")]
+    public async Task<HttpResponseData> GetDateTime(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "datetime")] HttpRequestData req)
+    {
+        _logger.LogInformation("GetDateTime function processed a request.");
+
+        try
+        {
+            // Create the datetime response
+            var datetimeResponse = new
+            {
+                message = "Current UTC DateTime",
+                utcDateTime = DateTime.UtcNow,
+                timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
+                unixTimestamp = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds(),
+                requestId = Guid.NewGuid().ToString()
+            };
+
+            // Create successful response
+            var response = req.CreateResponse(HttpStatusCode.OK);
+            response.Headers.Add("Content-Type", "application/json; charset=utf-8");
+            
+            await response.WriteStringAsync(JsonSerializer.Serialize(datetimeResponse, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            }));
+
+            return response;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing datetime request");
+            
+            var errorResponse = req.CreateResponse(HttpStatusCode.InternalServerError);
+            await errorResponse.WriteStringAsync("An error occurred while processing your request");
+            return errorResponse;
+        }
+    }
 }
