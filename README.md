@@ -5,7 +5,9 @@ This is an Azure Function built with .NET 8 that provides a REST API endpoint to
 ## Features
 
 - **HTTP POST Endpoint**: `/api/echo`
+- **HTTP GET Endpoint**: `/api/datetime`
 - **Echo Functionality**: Returns the posted message with additional metadata
+- **DateTime Functionality**: Returns current UTC datetime in multiple formats
 - **JSON Response**: Includes timestamp, request ID, and original message
 - **Error Handling**: Proper error responses for invalid requests
 - **Containerized**: Ready to run in Docker containers
@@ -28,7 +30,7 @@ This is an Azure Function built with .NET 8 that provides a REST API endpoint to
 └── README.md               # This file
 ```
 
-## API Endpoint
+## API Endpoints
 
 ### POST /api/echo
 
@@ -46,6 +48,26 @@ Echoes back the posted message with additional metadata.
   "message": "Echo successful",
   "originalMessage": "Your posted content here",
   "timestamp": "2025-10-20T10:30:00.000Z",
+  "requestId": "12345678-1234-1234-1234-123456789012"
+}
+```
+
+### GET /api/datetime
+
+Returns the current UTC datetime in multiple formats.
+
+**Request:**
+- Method: `GET`
+- URL: `http://localhost:7071/api/datetime` (local) or your deployed URL
+- No body required
+
+**Response:**
+```json
+{
+  "message": "Current UTC DateTime",
+  "utcDateTime": "2025-10-20T10:30:00.1234567Z",
+  "timestamp": "2025-10-20T10:30:00.1234567Z",
+  "unixTimestamp": 1729420200,
   "requestId": "12345678-1234-1234-1234-123456789012"
 }
 ```
@@ -84,17 +106,23 @@ dotnet restore
 func start
 ```
 
-The function will be available at `http://localhost:7071/api/echo`
+The function will be available at `http://localhost:7071/api/echo` and `http://localhost:7071/api/datetime`
 
-### Test the Function
+### Test the Functions
 ```bash
-# Using curl
+# Test Echo function using curl
 curl -X POST http://localhost:7071/api/echo \
   -H "Content-Type: text/plain" \
   -d "Hello, Azure Functions!"
 
-# Using PowerShell
+# Test DateTime function using curl
+curl -X GET http://localhost:7071/api/datetime
+
+# Using PowerShell - Echo function
 Invoke-RestMethod -Uri "http://localhost:7071/api/echo" -Method Post -Body "Hello, Azure Functions!" -ContentType "text/plain"
+
+# Using PowerShell - DateTime function
+Invoke-RestMethod -Uri "http://localhost:7071/api/datetime" -Method Get
 ```
 
 ## Docker Deployment
@@ -109,17 +137,23 @@ docker build -t echo-function .
 docker run -p 8080:80 echo-function
 ```
 
-The function will be available at `http://localhost:8080/api/echo`
+The function will be available at `http://localhost:8080/api/echo` and `http://localhost:8080/api/datetime`
 
-### Test the Containerized Function
+### Test the Containerized Functions
 ```bash
-# Using curl
+# Test Echo function using curl
 curl -X POST http://localhost:8080/api/echo \
   -H "Content-Type: text/plain" \
   -d "Hello from Docker!"
 
-# Using PowerShell
+# Test DateTime function using curl
+curl -X GET http://localhost:8080/api/datetime
+
+# Using PowerShell - Echo function
 Invoke-RestMethod -Uri "http://localhost:8080/api/echo" -Method Post -Body "Hello from Docker!" -ContentType "text/plain"
+
+# Using PowerShell - DateTime function
+Invoke-RestMethod -Uri "http://localhost:8080/api/datetime" -Method Get
 ```
 
 ## Deployment to Azure
