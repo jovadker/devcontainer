@@ -17,6 +17,7 @@ RUN dotnet publish "EchoFunction.csproj" -c Release -o /app/publish
 # Use the Azure Functions base image for .NET 8
 FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0 AS final
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
-    AzureFunctionsJobHost__Logging__Console__IsEnabled=true
+    AzureFunctionsJobHost__Logging__Console__IsEnabled=true \
+    ASPNETCORE_URLS=http://+:80
 
 COPY --from=publish /app/publish /home/site/wwwroot
