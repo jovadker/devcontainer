@@ -1,0 +1,51 @@
+{
+	"name": "Azure Functions .NET 8",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-jammy",
+	
+	"features": {
+		"ghcr.io/devcontainers/features/azure-cli:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/node:1": {
+			"nodeGypDependencies": true,
+			"version": "lts"
+		}
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit",
+				"ms-vscode.vscode-json",
+				"ms-azuretools.vscode-azurefunctions",
+				"ms-azuretools.vscode-docker",
+				"redhat.vscode-yaml",
+				"ms-vscode.powershell",
+				"GitHub.copilot",
+				"GitHub.copilot-chat"
+			],
+			"settings": {
+				"dotnet.defaultSolution": "disable",
+				"omnisharp.enableEditorConfigSupport": true,
+				"omnisharp.enableRoslynAnalyzers": true
+			}
+		}
+	},
+
+	"onCreateCommand": "bash .devcontainer/on-create.sh",
+	"postCreateCommand": "dotnet restore",
+
+	"forwardPorts": [7071, 8080],
+	"portsAttributes": {
+		"7071": {
+			"label": "Azure Functions",
+			"protocol": "http"
+		},
+		"8080": {
+			"label": "Docker Container",
+			"protocol": "http"
+		}
+	},
+
+	"remoteUser": "vscode"
+}

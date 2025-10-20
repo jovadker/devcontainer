@@ -28,7 +28,6 @@ $RECYCLE.BIN/
 *~
 
 # Development Container specific
-.devcontainer/
 !.devcontainer/devcontainer.json
 !.devcontainer/Dockerfile
 !.devcontainer/docker-compose.yml
