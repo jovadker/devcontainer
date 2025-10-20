@@ -9,10 +9,15 @@ This is an Azure Function built with .NET 8 that provides a REST API endpoint to
 - **JSON Response**: Includes timestamp, request ID, and original message
 - **Error Handling**: Proper error responses for invalid requests
 - **Containerized**: Ready to run in Docker containers
+- **DevContainer**: GitHub Codespaces and VS Code Remote Development ready
 
 ## Project Structure
 
 ```
+├── .devcontainer/          # GitHub Codespaces configuration
+│   ├── devcontainer.json   # DevContainer configuration
+│   ├── on-create.sh       # Environment setup script
+│   └── README.md          # DevContainer documentation
 ├── EchoFunction.cs          # Main function implementation
 ├── Program.cs               # Application entry point
 ├── EchoFunction.csproj      # Project file with dependencies
@@ -45,7 +50,26 @@ Echoes back the posted message with additional metadata.
 }
 ```
 
-## Local Development
+## Development Options
+
+### GitHub Codespaces (Recommended)
+
+The easiest way to get started is using GitHub Codespaces:
+
+1. Click the **"Code"** button on the GitHub repository
+2. Select **"Codespaces"** tab
+3. Click **"Create codespace on main"**
+4. Wait for the environment to set up automatically
+5. Start developing immediately!
+
+The devcontainer includes:
+- .NET 8 SDK pre-installed
+- Azure Functions Core Tools v4
+- Docker support
+- All required VS Code extensions
+- Pre-configured debugging
+
+### Local Development
 
 ### Prerequisites
 - .NET 8 SDK
